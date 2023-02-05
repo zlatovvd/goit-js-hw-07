@@ -28,10 +28,20 @@ gallery.innerHTML = markup;
 
 function onGalleryClick(event) {
   event.preventDefault();
-  instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}"/>`
-  );
-  instance.show();
+  if (event.target.dataset.source) {
+    instance = basicLightbox.create(
+      `<img src="${event.target.dataset.source}"/>`,
+      {
+        onShow: (instance) =>
+          instance.element().ownerDocument.activeElement.className ===
+          "gallery__link",
+
+        onClose: () => true,
+      }
+    );
+
+    instance.show();
+  }
 }
 
 function onEscape(event) {
